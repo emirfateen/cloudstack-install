@@ -1,10 +1,13 @@
 # Install and Configure Apache Cloudstack Private Cloud
 
-People behind the scenes from Kelompok 13:
-- Aqshal Ilham Samudera
+![LOGO DTE](https://hackmd.io/_uploads/rJnrQf_Gxe.png)
+
+
+Kelompok 13 Cloud Computing:
+- Nicholas Samosir
 - Emir Fateen Haqqi
 - Muhammad Nadhif Fasichul Ilmi
-- Nicholas Samosir
+- Aqshal Ilham Samudera
 
 ## Install SSH and confirm it
 ```
@@ -175,7 +178,7 @@ systemctl restart libvirtd
 ## Configure Iptables Firewall and Make it persistent
 **Change the INETWORK to your NETWORK**
 ```
-NETWORK=172.16.0.0/24
+NETWORK=192.168.106.0/23
 iptables -A INPUT -s $NETWORK -m state --state NEW -p udp --dport 111 -j ACCEPT
 iptables -A INPUT -s $NETWORK -m state --state NEW -p tcp --dport 111 -j ACCEPT
 iptables -A INPUT -s $NETWORK -m state --state NEW -p tcp --dport 2049 -j ACCEPT
@@ -222,38 +225,94 @@ You should see this cloudstack dashboard
 ## Completing CloudStack Installation
 Next, on the dashboard we'll see **"Continue with Installation"** and then follow the following steps. Change IP Address as per your requirement.
 
+### Section 1 and 2
+For section 1 and 2, you can just follow the screenshot below.
 ![Screenshot 2025-05-13 202710](https://hackmd.io/_uploads/r1wetTlbgg.png)
+
+### Section 3 (Zone details)
+- Start by put name as "NEW-ZONE" or anything as you want for the "Name" 
+- Put "IPv4 DNS", you can use 8.8.8.8 (google DNS) 
+- Put your network default gateway as "Internal DNS 1"
+- Set KVM as the "Hypervisor".  
+
+### Section 4 (Network)
+- Set the default gateway as Gateway and the netmask. 
+- Start IP and End IP is use as reserved IP Address for instances. 
 ![Screenshot 2025-05-13 202718](https://hackmd.io/_uploads/BJpxFalbee.png)
+
+Continue for Section 4-for the Pod sub-section
+- Set the Pod name 
+- The "reserved system gateway" and "reserved system netmask" can just follow it same as Zone (previous section). 
+- For the IP Address it should be different (you can continue after the End IP of the Zone).
+- Last for the guest traffic, you can use VLAN 3300 - 3399. 
 ![Screenshot 2025-05-13 202728](https://hackmd.io/_uploads/SyfZFpeZgl.png)
+
+### Section 5 (Add resources)
+This process begins with defining a cluster and specifying the host IP address. Start by creating a cluster. A cluster is used to group hosts that have identical hardware, run the same hypervisor, are on the same subnet, and share the same storage.
+- Enter the Cluster's name.
+- Enter the host IP Address as the "Host Name".
+- Set the username (you can use 'root') and password.
 ![Screenshot 2025-05-13 202735](https://hackmd.io/_uploads/HkdWYaxbxl.png)
+
+Continue for Section 5
+Next step is to configure Primary Storage. 
+- Set the name of the primary storage.
+- Set the "Scope" with the name of the Zone you've set up earlier.
+- Set the "Protocol" into NFS. 
+- Set the "Provider" with DefaultPrimary.
+- Specify the "Server" with your server storage's IP Address.
+- Set the /export/primary as you "Path" for primary storage.
 ![Screenshot 2025-05-13 202741](https://hackmd.io/_uploads/Sk3-Kag-lx.png)
+
+Next step is to configure Secondary Storage.
+- Select NFS as the "Provider"
+- Set the name of the secondary storage.
+- Specify the "Server" with your server storage's IP Address.
+- Set the /export/secondary as you "Path" for secondary storage.
 ![Screenshot 2025-05-13 202747](https://hackmd.io/_uploads/Sy-fYpxWgx.png)
 
 ## Installing ISO
-On Images tab, go click the "ISOs" and then click the "Register ISO".
+1. On Images tab, go click the "ISOs" and then click the "Register ISO".
 ![Screenshot 2025-05-13 213713](https://hackmd.io/_uploads/Hk-StAlZll.png)
-Register the ISO you want. We use ubuntu 22.04.5 live server. for the "Zone", use the "Zone" that we've configured earlier. 
+2. Register the ISO you want. 
+- URL: put the URL that leads into the .iso file 
+- Name: set the name of the ISO
+- Description: set the description for the ISO
+- Zone: select the zone that you want/needed for the ISO
+- OS type: select the OS type and make sure to set it correctly (double check with the url)
 ![Screenshot 2025-05-13 213804](https://hackmd.io/_uploads/BJ9IKAlZlg.png)
 
 ## Add Network
-![Screenshot 2025-05-13 214337](https://hackmd.io/_uploads/HJ135AxZee.png)
+This section is for adding new network.
+
+Steps:
+
+1. Open Network -> Guest Networks
+2. Click "Add Network" button
+3. Setup the network like picture below. You may change the **Name**, **Zone**, **Gateway**, **Netmask** and **DNS** to your needed. 
+
 ![Screenshot 2025-05-13 214253](https://hackmd.io/_uploads/S1a_qCgWle.png)
 
-Change the **Name**, **Zone**, **Gateway**, **Netmask** and **DNS** to your needed. 
-
 ## Create Instance
+Next, we will create instance. 
+1. Open the instance tab in the Compute section. Then click the "Add Instance" button.
 ![Screenshot 2025-05-13 214439](https://hackmd.io/_uploads/SygWoAe-xe.png)
+2. Setup the instance. For Zone, Pod, and Cluster, use the one that you set up earlier. And for the ISO, you can use the one that you set up earlier too. 
 ![Screenshot 2025-05-13 214654](https://hackmd.io/_uploads/SyWuj0eZll.png)
+3. Selecting for the VM computer like compute (CPU) and Disk size.
 ![Screenshot 2025-05-13 214724](https://hackmd.io/_uploads/HyHqo0e-le.png)
+4. Select the network that you set up earlier and adjust it according to your needed. 
 ![Screenshot 2025-05-13 214729](https://hackmd.io/_uploads/rJHcsClZxl.png)
-
-After clicked the "Launch Instance", we'll see the Instance running on the "Instances" tab. 
+5. Click the "Launch Instance" button
+6. After clicked the "Launch Instance", we'll see the Instance running on the "Instances" tab. 
 ![Screenshot 2025-05-13 214858](https://hackmd.io/_uploads/B1YJhCe-eg.png)
 
 ## Access Instance
 
 ![Screenshot 2025-05-13 122505](https://hackmd.io/_uploads/BJKf_Ie-ee.png)
-![Screenshot 2025-05-13 215931](https://hackmd.io/_uploads/ryJORAe-gx.png)
+![instance](https://hackmd.io/_uploads/r1j3Z7nbee.png)
+![ssh instance](https://hackmd.io/_uploads/SkxTbQ3Wxe.png)
+
 
 
 
