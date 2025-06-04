@@ -2,7 +2,6 @@
 
 ![LOGO DTE](https://hackmd.io/_uploads/rJnrQf_Gxe.png)
 
-
 Kelompok 13 Cloud Computing:
 - Nicholas Samosir
 - Emir Fateen Haqqi
@@ -38,6 +37,32 @@ apt-get install intel-microcode -y
 - vim is a powerful text editor used for editing configuration files and code. 
 - tar is a tool used to compress and decompress files, and it is commonly used for extracting downloaded archives. 
 - intel-microcode is a collection of low-level instructions written in x86 assembly that improve processor functionality and security.
+
+## Network Configuration
+```
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eno1:
+      dhcp4: false
+      dhcp6: false
+      optional: true
+  bridges:
+    cloudbr0:
+      addresses: [192.168.106.24/24]  #Your host IP address
+      routes:
+        - to: default
+          via: 192.168.106.1
+      nameservers:
+        addresses: [1.1.1.1,8.8.8.8]
+      interfaces: [eno1]
+      dhcp4: false
+      dhcp6: false
+      parameters:
+        stp: false
+        forward-delay: 0
+```
 
 ## Cloudstack Installation
 ```
@@ -283,15 +308,10 @@ Next step is to configure Secondary Storage.
 ![Screenshot 2025-05-13 213804](https://hackmd.io/_uploads/BJ9IKAlZlg.png)
 
 ## Add Network
-This section is for adding new network.
-
-Steps:
-
-1. Open Network -> Guest Networks
-2. Click "Add Network" button
-3. Setup the network like picture below. You may change the **Name**, **Zone**, **Gateway**, **Netmask** and **DNS** to your needed. 
-
+![Screenshot 2025-05-13 214337](https://hackmd.io/_uploads/HJ135AxZee.png)
 ![Screenshot 2025-05-13 214253](https://hackmd.io/_uploads/S1a_qCgWle.png)
+
+Change the **Name**, **Zone**, **Gateway**, **Netmask** and **DNS** to your needed. 
 
 ## Create Instance
 Next, we will create instance. 
@@ -312,9 +332,6 @@ Next, we will create instance.
 ![Screenshot 2025-05-13 122505](https://hackmd.io/_uploads/BJKf_Ie-ee.png)
 ![instance](https://hackmd.io/_uploads/r1j3Z7nbee.png)
 ![ssh instance](https://hackmd.io/_uploads/SkxTbQ3Wxe.png)
-
-
-
 
 
 
