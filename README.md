@@ -9,7 +9,7 @@ Kelompok 13 Cloud Computing:
 - Aqshal Ilham Samudera
 
 Video Installation: 
-
+[![Watch the video](https://img.youtube.com/vi/X6GXFGl09Zc/maxresdefault.jpg)](https://youtu.be/X6GXFGl09Zc)
 
 
 ## Install SSH and configure root password
