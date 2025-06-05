@@ -327,6 +327,7 @@ Next step is to configure Primary Storage.
 - Set the "Provider" with DefaultPrimary.
 - Specify the "Server" with your server storage's IP Address.
 - Set the /export/primary as you "Path" for primary storage.
+
 ![Screenshot 2025-05-13 202741](https://hackmd.io/_uploads/Sk3-Kag-lx.png)
 
 Next step is to configure Secondary Storage.
@@ -334,6 +335,7 @@ Next step is to configure Secondary Storage.
 - Set the name of the secondary storage.
 - Specify the "Server" with your server storage's IP Address.
 - Set the /export/secondary as you "Path" for secondary storage.
+
 ![Screenshot 2025-05-13 202747](https://hackmd.io/_uploads/Sy-fYpxWgx.png)
 
 ## Installing ISO
@@ -345,6 +347,7 @@ Next step is to configure Secondary Storage.
 - Description: set the description for the ISO
 - Zone: select the zone that you want/needed for the ISO
 - OS type: select the OS type and make sure to set it correctly (double check with the url)
+
 ![Screenshot 2025-05-13 213804](https://hackmd.io/_uploads/BJ9IKAlZlg.png)
 
 ## Add Network
