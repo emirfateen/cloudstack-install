@@ -37,6 +37,8 @@ systemctl restart ssh
 
 ## Configure Network
 
+Make sure that if you use DHCP, we recommend you to change your IP Address to static as we want to make sure that the server's IP Address didnt change and wouldn't effect our installation. 
+
 Access the file in the netplan directory and edit it
 ```
 cd /etc/netplan
@@ -239,9 +241,9 @@ echo host_uuid = \"$UUID\" >> /etc/libvirt/libvirtd.conf
 systemctl restart libvirtd
 ```
 ## Configure Iptables Firewall and Make it persistent
-**Change the INETWORK to your NETWORK**
+**Change the NETWORK to your own network**
 ```
-NETWORK=192.168.106.0/23
+NETWORK=192.168.1.0/24
 iptables -A INPUT -s $NETWORK -m state --state NEW -p udp --dport 111 -j ACCEPT
 iptables -A INPUT -s $NETWORK -m state --state NEW -p tcp --dport 111 -j ACCEPT
 iptables -A INPUT -s $NETWORK -m state --state NEW -p tcp --dport 2049 -j ACCEPT
