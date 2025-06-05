@@ -8,19 +8,83 @@ Kelompok 13 Cloud Computing:
 - Muhammad Nadhif Fasichul Ilmi
 - Aqshal Ilham Samudera
 
-## Install SSH and confirm it
+Video Installation: 
+
+
+
+## Install SSH and configure root password
+
+Installing openssh-server
 ```
 sudo apt update
 sudo apt install openssh-server -y
 sudo systemctl status ssh
 ```
-We use tailscale to remote SSH from our windows device.
+
+configuring root
+```
+passwd root
+#this tutorial will change it to Pa$$w0rd
+```
+
+enabling ssh root login
+```
+sed -i '/#PermitRootLogin prohibit-password/a PermitRootLogin yes' /etc/ssh/sshd_config
+systemctl restart ssh
+```
+
+
+
+## Configure Network
+
+Access the file in the netplan directory and edit it
+```
+cd /etc/netplan
+sudo nano ./*.yaml
+```
+
+Edit the file
+```
+# This is the network config written by 'subiquity'
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eno1:
+      dhcp4: false
+      dhcp6: false
+      optional: true
+  bridges:
+    cloudbr0:
+      addresses: [192.168.1.16/24]  #Your host IP address
+      routes:
+        - to: default
+          via: 192.168.1.1  #Your network gateway
+      nameservers:
+        addresses: [1.1.1.1,8.8.8.8]
+      interfaces: [eno1]  #The ethernet interfaces
+      dhcp4: false
+      dhcp6: false
+      parameters:
+        stp: false
+        forward-delay: 0
+```
+
+Validate the netplan configuration
+```
+sudo netplan get
+```
+
+Apply the netplan configuration
+```
+sudo netplan generate
+sudo netplan apply
+reboot
+```
 
 
 ## Install Hardware Resource Monitoring Tools
 ```
-apt update -y
-apt upgrade -y
 apt install htop lynx duf -y
 apt install bridge-utils
 ```
@@ -37,32 +101,6 @@ apt-get install intel-microcode -y
 - vim is a powerful text editor used for editing configuration files and code. 
 - tar is a tool used to compress and decompress files, and it is commonly used for extracting downloaded archives. 
 - intel-microcode is a collection of low-level instructions written in x86 assembly that improve processor functionality and security.
-
-## Network Configuration
-```
-network:
-  version: 2
-  renderer: networkd
-  ethernets:
-    eno1:
-      dhcp4: false
-      dhcp6: false
-      optional: true
-  bridges:
-    cloudbr0:
-      addresses: [192.168.106.24/24]  #Your host IP address
-      routes:
-        - to: default
-          via: 192.168.106.1
-      nameservers:
-        addresses: [1.1.1.1,8.8.8.8]
-      interfaces: [eno1]
-      dhcp4: false
-      dhcp6: false
-      parameters:
-        stp: false
-        forward-delay: 0
-```
 
 ## Cloudstack Installation
 ```
@@ -332,6 +370,3 @@ Next, we will create instance.
 ![Screenshot 2025-05-13 122505](https://hackmd.io/_uploads/BJKf_Ie-ee.png)
 ![instance](https://hackmd.io/_uploads/r1j3Z7nbee.png)
 ![ssh instance](https://hackmd.io/_uploads/SkxTbQ3Wxe.png)
-
-
-
