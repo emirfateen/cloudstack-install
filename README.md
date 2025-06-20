@@ -3,10 +3,10 @@
 ![LOGO DTE](https://hackmd.io/_uploads/rJnrQf_Gxe.png)
 
 Kelompok 13 Cloud Computing:
-- Nicholas Samosir
-- Emir Fateen Haqqi
-- Muhammad Nadhif Fasichul Ilmi
-- Aqshal Ilham Samudera
+- Nicholas Samosir (2206059396)
+- Emir Fateen Haqqi (2206059465)
+- Muhammad Nadhif Fasichul Ilmi (2206813416)
+- Aqshal Ilham Samudera (2206829995)
 
 Video Installation: 
 [![Watch the video](https://img.youtube.com/vi/X6GXFGl09Zc/maxresdefault.jpg)](https://youtu.be/X6GXFGl09Zc)
